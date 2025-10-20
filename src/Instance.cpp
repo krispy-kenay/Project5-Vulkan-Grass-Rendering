@@ -2,6 +2,7 @@
 #include <set>
 #include <vector>
 #include "Instance.h"
+#include "Device.h"
 
 #ifdef NDEBUG
 const bool ENABLE_VALIDATION = false;

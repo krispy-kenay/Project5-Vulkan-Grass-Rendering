@@ -4,9 +4,11 @@
 #include <vector>
 #include <vulkan/vulkan.h>
 #include "QueueFlags.h"
-#include "Device.h"
+//#include "Device.h"
 
 extern const bool ENABLE_VALIDATION;
+
+class Device;
 
 class Instance {
 

@@ -64,3 +64,33 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/")
 
 add_subdirectory(external)
 add_subdirectory(src)
+
+file(GLOB_RECURSE GLSL_SOURCE_FILES
+    "${CMAKE_SOURCE_DIR}/src/shaders/*.vert"
+    "${CMAKE_SOURCE_DIR}/src/shaders/*.frag"
+    "${CMAKE_SOURCE_DIR}/src/shaders/*.tesc"
+    "${CMAKE_SOURCE_DIR}/src/shaders/*.tese"
+    "${CMAKE_SOURCE_DIR}/src/shaders/*.comp"
+)
+
+set(SHADER_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/bin/shaders")
+
+file(MAKE_DIRECTORY ${SHADER_OUTPUT_DIR})
+
+set(SPIRV_BINARY_FILES "")
+foreach(GLSL ${GLSL_SOURCE_FILES})
+    get_filename_component(FILE_NAME ${GLSL} NAME)
+    set(SPIRV "${SHADER_OUTPUT_DIR}/${FILE_NAME}.spv")
+
+    add_custom_command(
+        OUTPUT ${SPIRV}
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${SHADER_OUTPUT_DIR}
+        COMMAND glslc ${GLSL} -o ${SPIRV}
+        DEPENDS ${GLSL}
+        COMMENT "Compiling shader: ${FILE_NAME}"
+    )
+    list(APPEND SPIRV_BINARY_FILES ${SPIRV})
+endforeach()
+
+add_custom_target(Shaders ALL DEPENDS ${SPIRV_BINARY_FILES})
+add_dependencies(vulkan_grass_rendering Shaders)

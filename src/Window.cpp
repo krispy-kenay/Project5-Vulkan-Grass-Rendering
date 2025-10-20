@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include <cstdlib>
+#include <cstring>
+#include <limits>
 #include "Window.h"
 
 namespace {

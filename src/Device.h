@@ -7,6 +7,8 @@
 #include "SwapChain.h"
 
 class SwapChain;
+class Instance;
+
 class Device {
     friend class Instance;
 
